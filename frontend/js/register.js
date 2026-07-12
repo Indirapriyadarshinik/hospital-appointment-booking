@@ -17,7 +17,7 @@ form.addEventListener("submit", async (e) => {
 
     try {
 
-        const response = await fetch("http://54.237.235.28:3000/patient/register", {
+        const response = await fetch("http://54.234.25.242:3000/patient/register", {
 
             method: "POST",
 

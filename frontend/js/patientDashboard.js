@@ -1,48 +1,56 @@
 const patientId = localStorage.getItem("patientId");
 
 if (!patientId) {
-    alert("Please login first.");
     window.location.href = "../login.html";
 }
 
-async function loadPatientProfile() {
+async function loadDashboard() {
 
     try {
 
-        const response = await fetch(
-            `http://54.237.235.28:3000/patient/profile/${patientId}`
-        );
+        // Patient Profile
+        const profileRes = await fetch(`http://54.234.25.242:3000/patient/profile/${patientId}`);
+        const profileData = await profileRes.json();
 
-        const result = await response.json();
+        if (profileData.success) {
 
-        if (!result.success) {
-            alert(result.message);
-            return;
+            document.getElementById("patientName").textContent =
+                profileData.patient.fullName;
+
+            document.getElementById("welcomeName").textContent =
+                profileData.patient.fullName;
+
         }
 
-        const patient = result.patient;
+        // Appointments
 
-        document.getElementById("welcomeName").innerText = patient.fullName;
-        document.getElementById("profileName").innerText = patient.fullName;
-        document.getElementById("patientId").innerText = patient.patientId;
+        const appointmentRes = await fetch(`http://54.234.25.242:3000/patient/appointments/${patientId}`);
 
-        document.getElementById("fullName").value = patient.fullName || "";
-        document.getElementById("email").value = patient.email || "";
-        document.getElementById("phone").value = patient.phone || "";
-        document.getElementById("age").value = patient.age || "";
-        document.getElementById("address").value = patient.address || "";
+        const appointmentData = await appointmentRes.json();
 
-        if (patient.gender) {
-            document.getElementById("gender").value = patient.gender;
+        if (appointmentData.success) {
+
+            const appointments = appointmentData.appointments;
+
+            document.getElementById("totalAppointments").textContent =
+                appointments.length;
+
+            document.getElementById("upcomingAppointments").textContent =
+                appointments.filter(a => a.status === "Pending").length;
+
+            document.getElementById("completedAppointments").textContent =
+                appointments.filter(a => a.status === "Completed").length;
+
         }
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.log(error);
-        alert("Unable to load profile.");
 
     }
 
 }
 
-loadPatientProfile();
+loadDashboard();

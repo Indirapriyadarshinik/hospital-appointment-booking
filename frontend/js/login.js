@@ -16,13 +16,13 @@ form.addEventListener("submit", async function (e) {
     let apiUrl = "";
 
     if (role === "Patient") {
-        apiUrl = "http://54.237.235.28:3000/patient/login";
+        apiUrl = "http://54.234.25.242:3000/patient/login";
     }
     else if (role === "Doctor") {
-        apiUrl = "http://54.237.235.28:3000/doctor/login";
+        apiUrl = "http://54.234.25.242:3000/doctor/login";
     }
     else if (role === "Admin") {
-        apiUrl = "http://54.237.235.28:3000/admin/login";
+        apiUrl = "http://54.234.25.242:3000/admin/login";
     }
 
     try {

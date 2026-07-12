@@ -191,7 +191,7 @@ Logout
 
 <i class="bi bi-person-circle"></i>
 
-Welcome, Chinnu
+<span id="patientName">Loading...</span>
 
 </div>
 
@@ -201,7 +201,7 @@ Welcome, Chinnu
 
 <div class="welcome-card">
 
-<h2>Hello, Chinnu 👋</h2>
+<h2>Hello, <span id="welcomeName">Loading...</span> 👋</h2>
 
 <p class="mb-0">
 
@@ -223,7 +223,7 @@ Book appointments with expert doctors in just a few clicks.
 
 <i class="bi bi-calendar2-check-fill"></i>
 
-<h3>8</h3>
+<h3 id="totalAppointments">0</h3>
 
 <p>Total Appointments</p>
 
@@ -237,7 +237,7 @@ Book appointments with expert doctors in just a few clicks.
 
 <i class="bi bi-clock-history"></i>
 
-<h3>2</h3>
+<h3 id="upcomingAppointments">0</h3>
 
 <p>Upcoming Appointments</p>
 
@@ -251,7 +251,7 @@ Book appointments with expert doctors in just a few clicks.
 
 <i class="bi bi-check-circle-fill"></i>
 
-<h3>6</h3>
+<h3 id="completedAppointments">0</h3>
 
 <p>Completed Appointments</p>
 
@@ -463,7 +463,7 @@ Book appointments with expert doctors in just a few clicks.
 </div>
 
 </div>
-
+<script src="../js/patientDashboard.js"></script>
 </body>
 
 </html>
