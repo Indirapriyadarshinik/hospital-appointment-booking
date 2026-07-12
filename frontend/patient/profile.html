@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>My Profile</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f4f7fc;
+}
+
+/* Sidebar */
+
+.sidebar{
+position:fixed;
+width:250px;
+height:100vh;
+background:#0d6efd;
+padding-top:20px;
+}
+
+.sidebar h3{
+color:white;
+text-align:center;
+margin-bottom:35px;
+}
+
+.sidebar a{
+display:block;
+padding:15px 25px;
+text-decoration:none;
+color:white;
+transition:.3s;
+}
+
+.sidebar a:hover{
+background:rgba(255,255,255,.2);
+}
+
+.sidebar i{
+margin-right:10px;
+}
+
+.main{
+margin-left:250px;
+padding:30px;
+}
+
+.topbar{
+background:white;
+padding:18px 25px;
+border-radius:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+margin-bottom:30px;
+}
+
+.profile-card{
+background:white;
+border:none;
+border-radius:15px;
+padding:35px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.profile-icon{
+font-size:100px;
+color:#0d6efd;
+}
+
+.form-control{
+height:48px;
+}
+
+textarea{
+resize:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+<h3>
+
+<i class="bi bi-hospital"></i>
+
+MedCare
+
+</h3>
+
+<a href="dashboard.html">
+<i class="bi bi-speedometer2"></i>
+Dashboard
+</a>
+
+<a href="doctors.html">
+<i class="bi bi-person-vcard"></i>
+Doctors
+</a>
+
+<a href="book-appointment.html">
+<i class="bi bi-calendar-plus"></i>
+Book Appointment
+</a>
+
+<a href="myappointments.html">
+<i class="bi bi-calendar-check"></i>
+My Appointments
+</a>
+
+<a href="#">
+<i class="bi bi-person-circle"></i>
+My Profile
+</a>
+
+<a href="../login.html">
+<i class="bi bi-box-arrow-right"></i>
+Logout
+</a>
+
+</div>
+
+<!-- Main -->
+
+<div class="main">
+
+<div class="topbar">
+
+<h4>
+
+My Profile
+
+</h4>
+
+<div>
+
+<i class="bi bi-person-circle"></i>
+
+Welcome, Chinnu
+
+</div>
+
+</div>
+
+<div class="profile-card">
+
+<div class="text-center mb-4">
+
+<i class="bi bi-person-circle profile-icon"></i>
+
+<h3 class="mt-3">
+
+Chinnu
+
+</h3>
+
+<p class="text-muted">
+
+Patient ID : P101
+
+</p>
+
+</div>
+
+<form>
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+
+<label>Name</label>
+
+<input
+type="text"
+class="form-control"
+value="Chinnu">
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Email</label>
+
+<input
+type="email"
+class="form-control"
+value="chinnu@gmail.com">
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Phone</label>
+
+<input
+type="text"
+class="form-control"
+value="+91 9876543210">
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Gender</label>
+
+<select class="form-select">
+
+<option>Female</option>
+
+<option>Male</option>
+
+<option>Other</option>
+
+</select>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Age</label>
+
+<input
+type="number"
+class="form-control"
+value="22">
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Date of Birth</label>
+
+<input
+type="date"
+class="form-control">
+
+</div>
+
+<div class="col-md-12 mb-3">
+
+<label>Address</label>
+
+<textarea
+class="form-control"
+rows="3">Bangalore, Karnataka</textarea>
+
+</div>
+
+<div class="col-md-12 mt-3">
+
+<button class="btn btn-primary">
+
+<i class="bi bi-pencil-square"></i>
+
+Update Profile
+
+</button>
+
+<button class="btn btn-outline-danger ms-2">
+
+<i class="bi bi-key-fill"></i>
+
+Change Password
+
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

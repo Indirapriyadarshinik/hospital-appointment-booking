@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Manage Doctors</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f4f7fc;
+}
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:250px;
+height:100vh;
+background:#0d6efd;
+padding-top:20px;
+}
+
+.sidebar h3{
+color:white;
+text-align:center;
+margin-bottom:35px;
+}
+
+.sidebar a{
+display:block;
+padding:15px 25px;
+color:white;
+text-decoration:none;
+transition:.3s;
+}
+
+.sidebar a:hover{
+background:rgba(255,255,255,.2);
+}
+
+.sidebar i{
+margin-right:10px;
+}
+
+.main{
+margin-left:250px;
+padding:30px;
+}
+
+.topbar{
+background:white;
+padding:18px 25px;
+border-radius:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+margin-bottom:30px;
+}
+
+.card{
+border:none;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.table th{
+background:#0d6efd;
+color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h3>
+
+<i class="bi bi-hospital"></i>
+
+MedCare
+
+</h3>
+
+<a href="dashboard.html">
+<i class="bi bi-speedometer2"></i>
+Dashboard
+</a>
+
+<a href="add-doctor.html">
+<i class="bi bi-person-plus-fill"></i>
+Add Doctor
+</a>
+
+<a href="#">
+<i class="bi bi-person-vcard-fill"></i>
+Manage Doctors
+</a>
+
+<a href="patients.html">
+<i class="bi bi-people-fill"></i>
+Patients
+</a>
+
+<a href="appointments.html">
+<i class="bi bi-calendar-check-fill"></i>
+Appointments
+</a>
+
+<a href="../login.html">
+<i class="bi bi-box-arrow-right"></i>
+Logout
+</a>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<h4>Manage Doctors</h4>
+
+<div>
+
+<i class="bi bi-person-circle"></i>
+
+Administrator
+
+</div>
+
+</div>
+
+<div class="card p-4">
+
+<div class="row mb-4">
+
+<div class="col-md-9">
+
+<input
+type="text"
+class="form-control"
+placeholder="Search Doctor by Name or Specialization">
+
+</div>
+
+<div class="col-md-3">
+
+<button class="btn btn-primary w-100">
+
+Search
+
+</button>
+
+</div>
+
+</div>
+
+<table class="table table-hover align-middle">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Doctor</th>
+
+<th>Specialization</th>
+
+<th>Experience</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>D101</td>
+
+<td>Dr. Rahul Sharma</td>
+
+<td>Cardiology</td>
+
+<td>10 Years</td>
+
+<td>
+
+<span class="badge bg-success">
+
+Available
+
+</span>
+
+</td>
+
+<td>
+
+<button class="btn btn-warning btn-sm">
+
+<i class="bi bi-pencil-square"></i>
+
+</button>
+
+<button class="btn btn-danger btn-sm">
+
+<i class="bi bi-trash-fill"></i>
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>D102</td>
+
+<td>Dr. Priya Reddy</td>
+
+<td>Dentist</td>
+
+<td>8 Years</td>
+
+<td>
+
+<span class="badge bg-success">
+
+Available
+
+</span>
+
+</td>
+
+<td>
+
+<button class="btn btn-warning btn-sm">
+
+<i class="bi bi-pencil-square"></i>
+
+</button>
+
+<button class="btn btn-danger btn-sm">
+
+<i class="bi bi-trash-fill"></i>
+
+</button>
+
+</td>
+
+</tr><tr>
+
+<td>D103</td>
+
+<td>Dr. Naveen Kumar</td>
+
+<td>Neurology</td>
+
+<td>12 Years</td>
+
+<td>
+
+<span class="badge bg-warning text-dark">
+
+Busy
+
+</span>
+
+</td>
+
+<td>
+
+<button
+class="btn btn-info btn-sm"
+data-bs-toggle="modal"
+data-bs-target="#doctorModal">
+
+<i class="bi bi-eye-fill"></i>
+
+</button>
+
+<button class="btn btn-warning btn-sm">
+
+<i class="bi bi-pencil-square"></i>
+
+</button>
+
+<button class="btn btn-danger btn-sm">
+
+<i class="bi bi-trash-fill"></i>
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>D104</td>
+
+<td>Dr. Sneha Patel</td>
+
+<td>Pediatrics</td>
+
+<td>7 Years</td>
+
+<td>
+
+<span class="badge bg-success">
+
+Available
+
+</span>
+
+</td>
+
+<td>
+
+<button class="btn btn-info btn-sm">
+
+<i class="bi bi-eye-fill"></i>
+
+</button>
+
+<button class="btn btn-warning btn-sm">
+
+<i class="bi bi-pencil-square"></i>
+
+</button>
+
+<button class="btn btn-danger btn-sm">
+
+<i class="bi bi-trash-fill"></i>
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>D105</td>
+
+<td>Dr. Arjun Kumar</td>
+
+<td>Orthopedic</td>
+
+<td>15 Years</td>
+
+<td>
+
+<span class="badge bg-success">
+
+Available
+
+</span>
+
+</td>
+
+<td>
+
+<button class="btn btn-info btn-sm">
+
+<i class="bi bi-eye-fill"></i>
+
+</button>
+
+<button class="btn btn-warning btn-sm">
+
+<i class="bi bi-pencil-square"></i>
+
+</button>
+
+<button class="btn btn-danger btn-sm">
+
+<i class="bi bi-trash-fill"></i>
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>D106</td>
+
+<td>Dr. Anjali Rao</td>
+
+<td>Gynecology</td>
+
+<td>9 Years</td>
+
+<td>
+
+<span class="badge bg-danger">
+
+On Leave
+
+</span>
+
+</td>
+
+<td>
+
+<button class="btn btn-info btn-sm">
+
+<i class="bi bi-eye-fill"></i>
+
+</button>
+
+<button class="btn btn-warning btn-sm">
+
+<i class="bi bi-pencil-square"></i>
+
+</button>
+
+<button class="btn btn-danger btn-sm">
+
+<i class="bi bi-trash-fill"></i>
+
+</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- Statistics -->
+
+<div class="row mt-4">
+
+<div class="col-md-3">
+
+<div class="card p-4 text-center">
+
+<i class="bi bi-person-vcard-fill text-primary"
+style="font-size:45px;"></i>
+
+<h3 class="mt-3">6</h3>
+
+<p>Total Doctors</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card p-4 text-center">
+
+<i class="bi bi-check-circle-fill text-success"
+style="font-size:45px;"></i>
+
+<h3 class="mt-3">4</h3>
+
+<p>Available</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card p-4 text-center">
+
+<i class="bi bi-hourglass-split text-warning"
+style="font-size:45px;"></i>
+
+<h3 class="mt-3">1</h3>
+
+<p>Busy</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card p-4 text-center">
+
+<i class="bi bi-x-circle-fill text-danger"
+style="font-size:45px;"></i>
+
+<h3 class="mt-3">1</h3>
+
+<p>On Leave</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Footer -->
+
+<div class="text-center mt-5">
+
+<hr>
+
+<p class="text-muted">
+
+© 2026 MedCare Hospital Appointment Booking System
+
+</p>
+
+</div>
+
+</div>
+<!-- Doctor Details Modal -->
+
+<div class="modal fade"
+id="doctorModal"
+tabindex="-1">
+
+<div class="modal-dialog modal-lg">
+
+<div class="modal-content">
+
+<div class="modal-header bg-primary text-white">
+
+<h5 class="modal-title">
+
+Doctor Details
+
+</h5>
+
+<button
+type="button"
+class="btn-close btn-close-white"
+data-bs-dismiss="modal">
+</button>
+
+</div>
+
+<div class="modal-body">
+
+<div class="row">
+
+<div class="col-md-4 text-center">
+
+<i class="bi bi-person-circle text-primary"
+style="font-size:100px;"></i>
+
+<h4 class="mt-3">
+
+Dr. Rahul Sharma
+
+</h4>
+
+<p class="text-muted">
+
+Cardiologist
+
+</p>
+
+</div>
+
+<div class="col-md-8">
+
+<table class="table">
+
+<tr>
+
+<th>Doctor ID</th>
+
+<td>D101</td>
+
+</tr>
+
+<tr>
+
+<th>Email</th>
+
+<td>rahul@gmail.com</td>
+
+</tr>
+
+<tr>
+
+<th>Phone</th>
+
+<td>9876543210</td>
+
+</tr>
+
+<tr>
+
+<th>Qualification</th>
+
+<td>MBBS, MD</td>
+
+</tr>
+
+<tr>
+
+<th>Experience</th>
+
+<td>10 Years</td>
+
+</tr>
+
+<tr>
+
+<th>Consultation Fee</th>
+
+<td>₹700</td>
+
+</tr>
+
+<tr>
+
+<th>Available Days</th>
+
+<td>Monday - Friday</td>
+
+</tr>
+
+<tr>
+
+<th>Available Time</th>
+
+<td>09:00 AM - 05:00 PM</td>
+
+</tr>
+
+<tr>
+
+<th>Status</th>
+
+<td>
+
+<span class="badge bg-success">
+
+Available
+
+</span>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+
+<button class="btn btn-warning">
+
+<i class="bi bi-pencil-square"></i>
+
+Edit
+
+</button>
+
+<button class="btn btn-danger">
+
+<i class="bi bi-trash-fill"></i>
+
+Delete
+
+</button>
+
+<button
+class="btn btn-secondary"
+data-bs-dismiss="modal">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

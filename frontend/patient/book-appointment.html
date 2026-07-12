@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Book Appointment</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f4f7fc;
+}
+
+/* Sidebar */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:250px;
+height:100vh;
+background:#0d6efd;
+padding-top:20px;
+}
+
+.sidebar h3{
+color:white;
+text-align:center;
+margin-bottom:35px;
+}
+
+.sidebar a{
+display:block;
+padding:15px 25px;
+text-decoration:none;
+color:white;
+transition:.3s;
+}
+
+.sidebar a:hover{
+background:rgba(255,255,255,.2);
+}
+
+.sidebar i{
+margin-right:10px;
+}
+
+/* Main */
+
+.main{
+margin-left:250px;
+padding:30px;
+}
+
+/* Topbar */
+
+.topbar{
+background:white;
+padding:18px 25px;
+border-radius:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+margin-bottom:30px;
+}
+
+/* Card */
+
+.form-card{
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.form-control,
+.form-select{
+height:48px;
+}
+
+textarea{
+resize:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+<h3>
+
+<i class="bi bi-hospital"></i>
+
+MedCare
+
+</h3>
+
+<a href="dashboard.html">
+<i class="bi bi-speedometer2"></i>
+Dashboard
+</a>
+
+<a href="doctors.html">
+<i class="bi bi-person-vcard"></i>
+Doctors
+</a>
+
+<a href="#">
+<i class="bi bi-calendar-plus"></i>
+Book Appointment
+</a>
+
+<a href="myappointments.html">
+<i class="bi bi-calendar-check"></i>
+My Appointments
+</a>
+
+<a href="profile.html">
+<i class="bi bi-person-circle"></i>
+My Profile
+</a>
+
+<a href="../login.html">
+<i class="bi bi-box-arrow-right"></i>
+Logout
+</a>
+
+</div>
+
+<!-- Main -->
+
+<div class="main">
+
+<div class="topbar">
+
+<h4>
+
+Book Appointment
+
+</h4>
+
+<div>
+
+<i class="bi bi-person-circle"></i>
+
+Welcome, Chinnu
+
+</div>
+
+</div>
+
+<div class="form-card">
+
+<h3 class="mb-4">
+
+<i class="bi bi-calendar2-plus-fill text-primary"></i>
+
+Appointment Form
+
+</h3>
+
+<form>
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+
+<label class="fw-semibold">
+
+Patient Name
+
+</label>
+
+<input
+type="text"
+class="form-control"
+value="Chinnu"
+readonly>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label class="fw-semibold">
+
+Email
+
+</label>
+
+<input
+type="email"
+class="form-control"
+value="chinnu@gmail.com"
+readonly>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label class="fw-semibold">
+
+Select Doctor
+
+</label>
+
+<select class="form-select">
+
+<option>Select Doctor</option>
+
+<option>Dr. Rahul Sharma</option>
+
+<option>Dr. Priya Reddy</option>
+
+<option>Dr. Naveen Kumar</option>
+
+<option>Dr. Sneha Patel</option>
+
+<option>Dr. Arjun Kumar</option>
+
+<option>Dr. Anjali Rao</option>
+
+</select>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label class="fw-semibold">
+
+Department
+
+</label>
+
+<select class="form-select">
+
+<option>Select Department</option>
+
+<option>Cardiology</option>
+
+<option>Dentist</option>
+
+<option>Neurology</option>
+
+<option>Orthopedic</option>
+
+<option>Pediatrics</option>
+
+<option>Gynecology</option>
+
+</select>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label class="fw-semibold">
+
+Appointment Date
+
+</label>
+
+<input
+type="date"
+class="form-control">
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label class="fw-semibold">
+
+Appointment Time
+
+</label>
+
+<input
+type="time"
+class="form-control">
+
+</div><div class="col-md-12 mb-3">
+
+<label class="fw-semibold">
+
+Reason for Visit
+
+</label>
+
+<select class="form-select">
+
+<option>Select Reason</option>
+
+<option>General Checkup</option>
+
+<option>Fever</option>
+
+<option>Headache</option>
+
+<option>Dental Problem</option>
+
+<option>Heart Checkup</option>
+
+<option>Skin Allergy</option>
+
+<option>Eye Checkup</option>
+
+<option>Other</option>
+
+</select>
+
+</div>
+
+<div class="col-md-12 mb-3">
+
+<label class="fw-semibold">
+
+Describe Your Symptoms
+
+</label>
+
+<textarea
+class="form-control"
+rows="4"
+placeholder="Briefly describe your health problem..."></textarea>
+
+</div>
+
+<div class="col-md-12 mb-4">
+
+<label class="fw-semibold">
+
+Additional Notes (Optional)
+
+</label>
+
+<textarea
+class="form-control"
+rows="3"
+placeholder="Any additional information..."></textarea>
+
+</div>
+
+<div class="col-md-12">
+
+<div class="form-check">
+
+<input class="form-check-input"
+type="checkbox"
+id="terms">
+
+<label class="form-check-label"
+for="terms">
+
+I confirm that the above information is correct.
+
+</label>
+
+</div>
+
+</div>
+
+<div class="col-md-12 mt-4">
+
+<button class="btn btn-primary btn-lg">
+
+<i class="bi bi-calendar2-check-fill"></i>
+
+Book Appointment
+
+</button>
+
+<button type="reset"
+class="btn btn-outline-secondary btn-lg ms-2">
+
+Reset
+
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+</div>
+
+<!-- Appointment Tips -->
+
+<div class="card border-0 shadow-sm mt-4">
+
+<div class="card-header bg-primary text-white">
+
+<h5 class="mb-0">
+
+<i class="bi bi-lightbulb-fill"></i>
+
+Appointment Guidelines
+
+</h5>
+
+</div>
+
+<div class="card-body">
+
+<ul class="mb-0">
+
+<li>Arrive at least <strong>15 minutes</strong> before your appointment.</li>
+
+<li>Carry any previous medical reports if available.</li>
+
+<li>Bring a valid ID proof.</li>
+
+<li>If you are unable to attend, please cancel your appointment in advance.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
