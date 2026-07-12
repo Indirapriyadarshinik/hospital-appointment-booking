@@ -16,7 +16,7 @@ async function loadAppointments() {
 
     try {
 
-        const response = await fetch(`http://localhost:3000/patient/appointments/${patientId}`);
+        const response = await fetch(`http://54.237.235.28:3000/patient/appointments/${patientId}`);
 
         const result = await response.json();
 

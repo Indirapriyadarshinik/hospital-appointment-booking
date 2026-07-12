@@ -16,7 +16,7 @@ async function loadAppointments() {
 
     try {
 
-        const response = await fetch("http://localhost:3000/doctor/appointments");
+        const response = await fetch("http://54.237.235.28:3000/doctor/appointments");
 
         const result = await response.json();
 
@@ -114,7 +114,7 @@ async function rejectAppointment(id) {
 
         const response = await fetch(
 
-            `http://localhost:3000/doctor/reject/${id}`,
+            `http://54.237.235.28:3000/doctor/reject/${id}`,
 
             {
                 method: "PUT"

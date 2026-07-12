@@ -5,91 +5,75 @@ form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const role = document.getElementById("role").value;
-
     const email = document.getElementById("email").value.trim();
-
     const password = document.getElementById("password").value;
 
     if (!email || !password || !role) {
-
         alert("Please fill all fields.");
-
         return;
-
     }
 
     let apiUrl = "";
 
     if (role === "Patient") {
-
-        apiUrl = "http://localhost:3000/patient/login";
-
+        apiUrl = "http://54.237.235.28:3000/patient/login";
     }
-
     else if (role === "Doctor") {
-
-        alert("Doctor Login API is not completed yet.");
-
-        return;
-
+        apiUrl = "http://54.237.235.28:3000/doctor/login";
     }
-
     else if (role === "Admin") {
-
-        alert("Admin Login API is not completed yet.");
-
-        return;
-
+        apiUrl = "http://54.237.235.28:3000/admin/login";
     }
 
     try {
 
         const response = await fetch(apiUrl, {
-
             method: "POST",
-
             headers: {
-
                 "Content-Type": "application/json"
-
             },
-
             body: JSON.stringify({
-
                 email,
-
                 password
-
             })
-
         });
 
         const result = await response.json();
 
-        if (result.success) {
+        if (!result.success) {
+            alert(result.message);
+            return;
+        }
 
-            alert("Login Successful");
+        alert("Login Successful");
+
+        if (role === "Patient") {
 
             localStorage.setItem("patientId", result.patientId);
-
             localStorage.setItem("patientName", result.fullName);
 
             window.location.href = "patient/dashboard.html";
 
         }
+        else if (role === "Doctor") {
 
-        else {
+            localStorage.setItem("doctorId", result.doctorId);
+            localStorage.setItem("doctorName", result.fullName);
+            localStorage.setItem("department", result.department);
 
-            alert(result.message);
+            window.location.href = "doctor/dashboard.html";
+
+        }
+        else if (role === "Admin") {
+
+            window.location.href = "admin/dashboard.html";
 
         }
 
     }
-
     catch (error) {
 
         console.error(error);
-
         alert("Server Error");
 
     }

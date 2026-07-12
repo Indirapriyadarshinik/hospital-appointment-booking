@@ -80,7 +80,7 @@ form.addEventListener("submit", async function (e) {
 
     try {
 
-        const response = await fetch("http://localhost:3000/patient/book-appointment", {
+        const response = await fetch("http://54.237.235.28:3000/patient/book-appointment", {
 
             method: "POST",
 
