@@ -248,3 +248,39 @@ exports.getAppointments = async (req, res) => {
     }
 
 };
+// Get Patient Profile
+//const getPatientProfile = async (req, res) => {
+  exports.getPatientProfile = async (req, res) => {  
+    try {
+        const { patientId } = req.params;
+
+        const params = {
+            TableName: "Patients",
+            Key: {
+                patientId: patientId
+            }
+        };
+
+        const result = await dynamoDB.get(params).promise();
+
+        if (!result.Item) {
+            return res.status(404).json({
+                success: false,
+                message: "Patient not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            patient: result.Item
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Server Error"
+        });
+    }
+};

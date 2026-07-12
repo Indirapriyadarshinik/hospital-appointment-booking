@@ -161,7 +161,7 @@ My Profile
 
 <i class="bi bi-person-circle"></i>
 
-Welcome, Chinnu
+ Welcome, <span id="welcomeName"></span>
 
 </div>
 
@@ -173,15 +173,11 @@ Welcome, Chinnu
 
 <i class="bi bi-person-circle profile-icon"></i>
 
-<h3 class="mt-3">
-
-Chinnu
-
-</h3>
+<h3 class="mt-3" id="profileName"></h3>
 
 <p class="text-muted">
 
-Patient ID : P101
+Patient ID : <span id="patientId"></span>
 
 </p>
 
@@ -195,21 +191,14 @@ Patient ID : P101
 
 <label>Name</label>
 
-<input
-type="text"
-class="form-control"
-value="Chinnu">
-
+<input type="text" class="form-control" id="fullName">
 </div>
 
 <div class="col-md-6 mb-3">
 
 <label>Email</label>
 
-<input
-type="email"
-class="form-control"
-value="chinnu@gmail.com">
+<input type="email" class="form-control" id="email">
 
 </div>
 
@@ -217,10 +206,7 @@ value="chinnu@gmail.com">
 
 <label>Phone</label>
 
-<input
-type="text"
-class="form-control"
-value="+91 9876543210">
+<input type="text" class="form-control" id="phone">
 
 </div>
 
@@ -228,15 +214,9 @@ value="+91 9876543210">
 
 <label>Gender</label>
 
-<select class="form-select">
+<select class="form-select" id="gender"></select>
 
-<option>Female</option>
 
-<option>Male</option>
-
-<option>Other</option>
-
-</select>
 
 </div>
 
@@ -244,10 +224,7 @@ value="+91 9876543210">
 
 <label>Age</label>
 
-<input
-type="number"
-class="form-control"
-value="22">
+<input type="number" class="form-control" id="age">
 
 </div>
 
@@ -263,13 +240,7 @@ class="form-control">
 
 <div class="col-md-12 mb-3">
 
-<label>Address</label>
 
-<textarea
-class="form-control"
-rows="3">Bangalore, Karnataka</textarea>
-
-</div>
 
 <div class="col-md-12 mt-3">
 
@@ -298,6 +269,7 @@ Change Password
 </div>
 
 </div>
+<script src="../js/patientDashboard.js"></script>
 
 </body>
 
