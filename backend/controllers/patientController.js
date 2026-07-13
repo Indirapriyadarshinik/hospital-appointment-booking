@@ -1,3 +1,4 @@
+const sns = require("../config/sns");
 const dynamoDB = require("../config/aws");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");

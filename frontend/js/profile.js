@@ -30,7 +30,8 @@ async function loadPatientProfile() {
         document.getElementById("email").value = patient.email || "";
         document.getElementById("phone").value = patient.phone || "";
         document.getElementById("age").value = patient.age || "";
-        document.getElementById("address").value = patient.address || "";
+        const addressField = document.getElementById("address");
+        if (addressField) addressField.value = patient.address || "";
 
         if (patient.gender) {
             document.getElementById("gender").value = patient.gender;

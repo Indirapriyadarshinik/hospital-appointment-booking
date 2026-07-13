@@ -1,141 +1,77 @@
-// Doctor Name
-
+const API_BASE_URL = "http://54.234.25.242:3000";
+const doctorId = localStorage.getItem("doctorId");
 const doctorName = localStorage.getItem("doctorName");
 
-if (doctorName) {
-
-    document.getElementById("doctorName").textContent = doctorName;
-
+if (!doctorId) {
+    alert("Please log in as a doctor.");
+    window.location.href = "../login.html";
+} else {
+    document.getElementById("doctorName").textContent = doctorName || "Doctor";
+    loadAppointments();
 }
-
-// Load Appointments
-
-loadAppointments();
 
 async function loadAppointments() {
+    const table = document.getElementById("appointmentTable");
+    table.innerHTML = '<tr><td colspan="7">Loading appointments...</td></tr>';
 
     try {
-
-        const response = await fetch("http://54.234.25.242:3000/doctor/appointments");
-
+        const response = await fetch(`${API_BASE_URL}/doctor/appointments?doctorId=${encodeURIComponent(doctorId)}`);
         const result = await response.json();
 
-        const table = document.getElementById("appointmentTable");
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || "Unable to load appointments.");
+        }
 
-        table.innerHTML = "";
+        if (result.appointments.length === 0) {
+            table.innerHTML = '<tr><td colspan="7">No appointments found.</td></tr>';
+            return;
+        }
 
-        result.appointments.forEach(app => {
+        table.innerHTML = result.appointments.map((app) => {
+            const badgeClass = app.status === "Pending"
+                ? "bg-warning text-dark"
+                : app.status === "Approved" ? "bg-success" : "bg-danger";
+            const actions = app.status === "Pending"
+                ? `<button class="btn btn-success btn-sm me-2" onclick="updateAppointmentStatus('${app.appointmentId}', 'approve')">Accept</button>
+                   <button class="btn btn-danger btn-sm" onclick="updateAppointmentStatus('${app.appointmentId}', 'reject')">Reject</button>`
+                : "—";
 
-            let badge = "";
-
-            if (app.status === "Pending") {
-
-                badge = `<span class="badge bg-warning text-dark">Pending</span>`;
-
-            }
-
-            else if (app.status === "Approved") {
-
-                badge = `<span class="badge bg-success">Approved</span>`;
-
-            }
-
-            else {
-
-                badge = `<span class="badge bg-danger">Rejected</span>`;
-
-            }
-
-            table.innerHTML += `
-
-            <tr>
-
+            return `<tr>
                 <td>${app.appointmentId}</td>
-
                 <td>${app.patientId}</td>
-
-                <td>${app.department}</td>
-
+                <td>${app.department || "—"}</td>
                 <td>${app.appointmentDate}</td>
-
                 <td>${app.appointmentTime}</td>
-
-                <td>${badge}</td>
-
-                <td>
-
-                    <button
-                        class="btn btn-success btn-sm me-2"
-                        onclick="approveAppointment('${app.appointmentId}')">
-
-                        Approve
-
-                    </button>
-
-                    <button
-                        class="btn btn-danger btn-sm"
-                        onclick="rejectAppointment('${app.appointmentId}')">
-
-                        Reject
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-            `;
-
-        });
-
+                <td><span class="badge ${badgeClass}">${app.status}</span></td>
+                <td>${actions}</td>
+            </tr>`;
+        }).join("");
+    } catch (error) {
+        console.error(error);
+        table.innerHTML = '<tr><td colspan="7">Unable to load appointments.</td></tr>';
     }
-
-    catch (error) {
-
-        console.log(error);
-
-        alert("Unable to load appointments.");
-
-    }
-
 }
 
-// Temporary Buttons
-
-function approveAppointment(id){
-
-    alert("Approve API will be added next.\n\nAppointment: " + id);
-
-}
-
-async function rejectAppointment(id) {
+async function updateAppointmentStatus(appointmentId, action) {
+    const actionLabel = action === "approve" ? "accept" : "reject";
+    if (!confirm(`Do you want to ${actionLabel} this appointment?`)) return;
 
     try {
-
-        const response = await fetch(
-
-            `http://54.237.235.28:3000/doctor/reject/${id}`,
-
-            {
-                method: "PUT"
-            }
-
-        );
-
+        const response = await fetch(`${API_BASE_URL}/doctor/${action}/${appointmentId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ doctorId })
+        });
         const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || "Unable to update appointment.");
+        }
 
         alert(result.message);
-
         loadAppointments();
-
+    } catch (error) {
+        console.error(error);
+        alert(error.message || "Unable to update appointment.");
     }
-
-    catch (error) {
-
-        console.log(error);
-
-        alert("Server Error");
-
-    }
-
 }

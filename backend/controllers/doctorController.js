@@ -1,3 +1,4 @@
+const sns = require("../config/sns");
 const dynamoDB = require("../config/aws");
 const bcrypt = require("bcrypt");
 
@@ -75,8 +76,16 @@ exports.getAppointments = async (req, res) => {
 
     try {
 
+        const { doctorId } = req.query;
+
+        if (!doctorId) {
+            return res.status(400).json({ success: false, message: "doctorId is required." });
+        }
+
         const params = {
-            TableName: "Appointments"
+            TableName: "Appointments",
+            FilterExpression: "doctorId = :doctorId",
+            ExpressionAttributeValues: { ":doctorId": doctorId }
         };
 
         const data = await dynamoDB.scan(params).promise();
@@ -109,6 +118,11 @@ exports.approveAppointment = async (req, res) => {
     try {
 
         const appointmentId = req.params.appointmentId;
+        const { doctorId } = req.body;
+
+        if (!doctorId) {
+            return res.status(400).json({ success: false, message: "doctorId is required." });
+        }
 
         const params = {
 
@@ -125,14 +139,38 @@ exports.approveAppointment = async (req, res) => {
             },
 
             ExpressionAttributeValues: {
-                ":status": "Approved"
+                ":status": "Approved",
+                ":doctorId": doctorId,
+                ":pending": "Pending"
             },
+
+            ConditionExpression: "doctorId = :doctorId AND #status = :pending",
 
             ReturnValues: "ALL_NEW"
 
         };
 
         const data = await dynamoDB.update(params).promise();
+
+        const appointment = data.Attributes;
+        if (process.env.SNS_TOPIC_ARN) {
+            try {
+                const patientData = await dynamoDB.get({
+                    TableName: "Patients",
+                    Key: { patientId: appointment.patientId }
+                }).promise();
+
+                if (patientData.Item) {
+                    await sns.publish({
+                        TopicArn: process.env.SNS_TOPIC_ARN,
+                        Subject: "Appointment Approved",
+                        Message: `Hello ${patientData.Item.fullName},\n\nYour appointment ${appointment.appointmentId} has been approved.\nDate: ${appointment.appointmentDate}\nTime: ${appointment.appointmentTime}`
+                    }).promise();
+                }
+            } catch (notificationError) {
+                console.error("Appointment approved, but notification could not be sent:", notificationError);
+            }
+        }
 
         return res.status(200).json({
 
@@ -150,6 +188,13 @@ exports.approveAppointment = async (req, res) => {
 
         console.log(error);
 
+        if (error.code === "ConditionalCheckFailedException") {
+            return res.status(409).json({
+                success: false,
+                message: "This appointment is no longer pending or is assigned to another doctor."
+            });
+        }
+
         return res.status(500).json({
 
             success: false,
@@ -166,6 +211,11 @@ exports.rejectAppointment = async (req, res) => {
     try {
 
         const appointmentId = req.params.appointmentId;
+        const { doctorId } = req.body;
+
+        if (!doctorId) {
+            return res.status(400).json({ success: false, message: "doctorId is required." });
+        }
 
         const params = {
 
@@ -182,8 +232,12 @@ exports.rejectAppointment = async (req, res) => {
             },
 
             ExpressionAttributeValues: {
-                ":status": "Rejected"
+                ":status": "Rejected",
+                ":doctorId": doctorId,
+                ":pending": "Pending"
             },
+
+            ConditionExpression: "doctorId = :doctorId AND #status = :pending",
 
             ReturnValues: "ALL_NEW"
 
@@ -206,6 +260,13 @@ exports.rejectAppointment = async (req, res) => {
     catch (error) {
 
         console.log(error);
+
+        if (error.code === "ConditionalCheckFailedException") {
+            return res.status(409).json({
+                success: false,
+                message: "This appointment is no longer pending or is assigned to another doctor."
+            });
+        }
 
         return res.status(500).json({
 

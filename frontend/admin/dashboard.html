@@ -191,7 +191,7 @@ Administrator
 
 <i class="bi bi-people-fill"></i>
 
-<h2>120</h2>
+<h2 id="totalPatients">0</h2>
 
 <p>Total Patients</p>
 
@@ -205,7 +205,7 @@ Administrator
 
 <i class="bi bi-person-vcard-fill"></i>
 
-<h2>18</h2>
+<h2 id="totalDoctors">0</h2>
 
 <p>Total Doctors</p>
 
@@ -219,7 +219,7 @@ Administrator
 
 <i class="bi bi-calendar2-check-fill"></i>
 
-<h2>34</h2>
+<h2 id="todaysAppointments">0</h2>
 
 <p>Today's Appointments</p>
 
@@ -233,7 +233,7 @@ Administrator
 
 <i class="bi bi-hourglass-split"></i>
 
-<h2>7</h2>
+<h2 id="pendingAppointments">0</h2>
 
 <p>Pending Appointments</p>
 
@@ -385,48 +385,8 @@ Recent Activities
 
 </thead>
 
-<tbody>
-
-<tr>
-
-<td>New Patient Registered</td>
-
-<td>Chinnu</td>
-
-<td>10 Minutes Ago</td>
-
-</tr>
-
-<tr>
-
-<td>Doctor Added</td>
-
-<td>Admin</td>
-
-<td>30 Minutes Ago</td>
-
-</tr>
-
-<tr>
-
-<td>Appointment Booked</td>
-
-<td>Rahul</td>
-
-<td>1 Hour Ago</td>
-
-</tr>
-
-<tr>
-
-<td>Appointment Cancelled</td>
-
-<td>Sneha</td>
-
-<td>Today</td>
-
-</tr>
-
+<tbody id="recentActivities">
+<tr><td colspan="3">Loading recent activity...</td></tr>
 </tbody>
 
 </table>
@@ -456,21 +416,21 @@ System Status
 <p>
 
 🟢 Server Status :
-<strong class="text-success">Online</strong>
+<strong class="text-muted" id="serverStatus">Checking...</strong>
 
 </p>
 
 <p>
 
 🟢 Database :
-<strong class="text-success">Connected</strong>
+<strong class="text-muted" id="databaseStatus">Checking...</strong>
 
 </p>
 
 <p>
 
 🟢 AWS Services :
-<strong class="text-success">Running</strong>
+<strong class="text-muted" id="awsStatus">Checking...</strong>
 
 </p>
 
@@ -531,6 +491,8 @@ Notifications
 </div>
 
 </div>
+
+<script src="../js/adminDashboard.js"></script>
 
 </body>
 

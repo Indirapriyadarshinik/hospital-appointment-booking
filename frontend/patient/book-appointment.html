@@ -167,7 +167,7 @@ Book Appointment
 
 <i class="bi bi-person-circle"></i>
 
-Welcome, Chinnu
+Welcome, <span id="patientName">Patient</span>
 
 </div>
 
@@ -183,7 +183,7 @@ Appointment Form
 
 </h3>
 
-<form>
+<form id="appointmentForm">
 
 <div class="row">
 
@@ -198,7 +198,7 @@ Patient Name
 <input
 type="text"
 class="form-control"
-value="Chinnu"
+id="patientFullName"
 readonly>
 
 </div>
@@ -214,7 +214,7 @@ Email
 <input
 type="email"
 class="form-control"
-value="chinnu@gmail.com"
+id="patientEmail"
 readonly>
 
 </div>
@@ -227,21 +227,21 @@ Select Doctor
 
 </label>
 
-<select class="form-select">
+<select class="form-select" id="doctor" required>
 
-<option>Select Doctor</option>
+<option value="">Select Doctor</option>
 
-<option>Dr. Rahul Sharma</option>
+<option value="DR001">Dr. Rahul Sharma</option>
 
-<option>Dr. Priya Reddy</option>
+<option value="DR002">Dr. Priya Reddy</option>
 
-<option>Dr. Naveen Kumar</option>
+<option value="DR003">Dr. Naveen Kumar</option>
 
-<option>Dr. Sneha Patel</option>
+<option value="DR004">Dr. Sneha Patel</option>
 
-<option>Dr. Arjun Kumar</option>
+<option value="DR005">Dr. Arjun Kumar</option>
 
-<option>Dr. Anjali Rao</option>
+<option value="DR006">Dr. Anjali Rao</option>
 
 </select>
 
@@ -255,11 +255,13 @@ Department
 
 </label>
 
-<select class="form-select">
+<select class="form-select" id="department" required>
 
-<option>Select Department</option>
+<option value="">Select Department</option>
 
 <option>Cardiology</option>
+
+<option>Dermatology</option>
 
 <option>Dentist</option>
 
@@ -285,7 +287,9 @@ Appointment Date
 
 <input
 type="date"
-class="form-control">
+class="form-control"
+id="appointmentDate"
+required>
 
 </div>
 
@@ -299,7 +303,9 @@ Appointment Time
 
 <input
 type="time"
-class="form-control">
+class="form-control"
+id="appointmentTime"
+required>
 
 </div><div class="col-md-12 mb-3">
 
@@ -309,9 +315,9 @@ Reason for Visit
 
 </label>
 
-<select class="form-select">
+<select class="form-select" id="reason" required>
 
-<option>Select Reason</option>
+<option value="">Select Reason</option>
 
 <option>General Checkup</option>
 
@@ -343,8 +349,9 @@ Describe Your Symptoms
 
 <textarea
 class="form-control"
+id="symptoms"
 rows="4"
-placeholder="Briefly describe your health problem..."></textarea>
+placeholder="Briefly describe your health problem..." required></textarea>
 
 </div>
 
@@ -358,6 +365,7 @@ Additional Notes (Optional)
 
 <textarea
 class="form-control"
+id="notes"
 rows="3"
 placeholder="Any additional information..."></textarea>
 
@@ -384,7 +392,7 @@ I confirm that the above information is correct.
 
 <div class="col-md-12 mt-4">
 
-<button class="btn btn-primary btn-lg">
+<button type="submit" class="btn btn-primary btn-lg">
 
 <i class="bi bi-calendar2-check-fill"></i>
 
@@ -442,6 +450,8 @@ Appointment Guidelines
 </div>
 
 </div>
+
+<script src="../js/patientBookAppointment.js"></script>
 
 </body>
 

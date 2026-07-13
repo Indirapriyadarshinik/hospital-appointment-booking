@@ -77,6 +77,8 @@ form.addEventListener("submit", async function (e) {
         notes: document.getElementById("notes").value
 
     };
+    console.log("Appointment Data:", appointment);
+    console.log("Sending Request...");
 
     try {
 
