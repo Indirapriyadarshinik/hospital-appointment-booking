@@ -9,7 +9,7 @@ async function loadDashboard() {
     try {
 
         // Patient Profile
-        const profileRes = await fetch(`http://54.234.25.242:3000/patient/profile/${patientId}`);
+        const profileRes = await fetch(`http://localhost:3000/patient/profile/${patientId}`);
         const profileData = await profileRes.json();
 
         if (profileData.success) {
@@ -24,7 +24,7 @@ async function loadDashboard() {
 
         // Appointments
 
-        const appointmentRes = await fetch(`http://54.234.25.242:3000/patient/appointments/${patientId}`);
+        const appointmentRes = await fetch(`http://localhost:3000/patient/appointments/${patientId}`);
 
         const appointmentData = await appointmentRes.json();
 

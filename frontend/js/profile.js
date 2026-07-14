@@ -10,7 +10,7 @@ async function loadPatientProfile() {
     try {
 
         const response = await fetch(
-            `http://54.234.25.242:3000/patient/profile/${patientId}`
+            `http://localhost:3000/patient/profile/${patientId}`
         );
 
         const result = await response.json();

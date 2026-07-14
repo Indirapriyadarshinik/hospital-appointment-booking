@@ -2,12 +2,6 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
-console.log("Bucket:", process.env.S3_BUCKET_NAME);
-console.log("Region:", process.env.AWS_REGION);
-console.log("Access Key Prefix:", process.env.AWS_ACCESS_KEY_ID?.substring(0, 4));
-console.log("Access Key Length:", process.env.AWS_ACCESS_KEY_ID?.length);
-console.log("Secret Key Length:", process.env.AWS_SECRET_ACCESS_KEY?.length);
-
 const reportRoutes = require("./routes/reportRoutes");
 
 const app = express();

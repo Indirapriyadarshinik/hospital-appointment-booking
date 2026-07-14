@@ -14,7 +14,7 @@ async function loadReports() {
 
         const response = await fetch(
 
-            `http://54.234.25.242:3000/report/patient/${patientId}`
+            `http://localhost:3000/report/patient/${patientId}`
 
         );
 
