@@ -6,24 +6,38 @@ if (!patientId) {
     window.location.href = "../login.html";
 } else {
     loadPatientProfile();
+    loadDoctors();
 }
 
 const doctor = document.getElementById("doctor");
 const department = document.getElementById("department");
-const departmentByDoctor = {
-    DR001: "Cardiology",
-    DR002: "Dermatology",
-    DR003: "Orthopedic",
-    DR004: "Neurology",
-    DR005: "Pediatrics",
-    DR006: "Gynecology"
-};
+const departmentByDoctor = {};
 
 doctor.addEventListener("change", () => {
     department.value = departmentByDoctor[doctor.value] || "";
 });
 
 document.getElementById("appointmentDate").min = new Date().toISOString().split("T")[0];
+
+async function loadDoctors() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/admin/doctors`);
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error("Unable to load doctors.");
+
+        doctor.innerHTML = '<option value="">Select Doctor</option>';
+        result.doctors.forEach((item) => {
+            departmentByDoctor[item.doctorId] = item.department;
+            const option = document.createElement("option");
+            option.value = item.doctorId;
+            option.textContent = `${item.fullName} (${item.department})`;
+            doctor.appendChild(option);
+        });
+    } catch (error) {
+        console.error(error);
+        alert("Unable to load doctors. Please try again later.");
+    }
+}
 
 async function loadPatientProfile() {
     try {

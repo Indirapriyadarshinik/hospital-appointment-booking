@@ -185,7 +185,7 @@ Doctor Registration
 
 </h3>
 
-<form>
+<form id="addDoctorForm">
 
 <div class="row">
 
@@ -196,7 +196,7 @@ Doctor Registration
 <input
 type="text"
 class="form-control"
-placeholder="Enter Doctor Name">
+placeholder="Enter Doctor Name" id="fullName" required>
 
 </div>
 
@@ -207,7 +207,7 @@ placeholder="Enter Doctor Name">
 <input
 type="email"
 class="form-control"
-placeholder="Enter Email">
+placeholder="Enter Email" id="email" required>
 
 </div>
 
@@ -218,7 +218,7 @@ placeholder="Enter Email">
 <input
 type="text"
 class="form-control"
-placeholder="Enter Phone Number">
+placeholder="Enter Phone Number" id="phone" required>
 
 </div>
 
@@ -229,7 +229,7 @@ placeholder="Enter Phone Number">
 <input
 type="password"
 class="form-control"
-placeholder="Create Password">
+placeholder="Create Password" id="password" required>
 
 </div>
 
@@ -237,7 +237,7 @@ placeholder="Create Password">
 
 <label>Specialization</label>
 
-<select class="form-select">
+<select class="form-select" id="department" required>
 
 <option>Select Specialization</option>
 
@@ -264,7 +264,7 @@ placeholder="Create Password">
 <input
 type="text"
 class="form-control"
-placeholder="Example: 10 Years">
+placeholder="Example: 10 Years" id="experience">
 
 </div><div class="col-md-6 mb-3">
 
@@ -273,7 +273,7 @@ placeholder="Example: 10 Years">
 <input
 type="text"
 class="form-control"
-placeholder="MBBS, MD, MS...">
+placeholder="MBBS, MD, MS..." id="qualification">
 
 </div>
 
@@ -284,7 +284,7 @@ placeholder="MBBS, MD, MS...">
 <input
 type="number"
 class="form-control"
-placeholder="Enter Fee">
+placeholder="Enter Fee" id="consultationFee">
 
 </div>
 
@@ -292,7 +292,7 @@ placeholder="Enter Fee">
 
 <label>Available Days</label>
 
-<select class="form-select">
+<select class="form-select" id="availableDays">
 
 <option>Select Days</option>
 
@@ -313,7 +313,7 @@ placeholder="Enter Fee">
 <input
 type="text"
 class="form-control"
-placeholder="09:00 AM - 05:00 PM">
+placeholder="09:00 AM - 05:00 PM" id="availableTime">
 
 </div>
 
@@ -324,7 +324,7 @@ placeholder="09:00 AM - 05:00 PM">
 <textarea
 class="form-control"
 rows="3"
-placeholder="Enter Hospital Address"></textarea>
+placeholder="Enter Hospital Address" id="address"></textarea>
 
 </div>
 
@@ -342,7 +342,7 @@ Doctor login credentials will be created using the email and password entered ab
 
 <div class="col-md-12">
 
-<button class="btn btn-primary btn-lg">
+<button type="submit" class="btn btn-primary btn-lg">
 
 <i class="bi bi-person-plus-fill"></i>
 
@@ -377,6 +377,8 @@ Doctor account created successfully.
 </div>
 
 </div>
+
+<script src="../js/addDoctor.js"></script>
 
 </body>
 
