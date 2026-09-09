@@ -86,17 +86,6 @@ exports.getAppointments = async (req, res) => {
             return res.status(400).json({ success: false, message: "doctorId is required." });
         }
 
-        // Upgrade legacy plain-text doctor passwords after a successful login.
-        if (!isBcryptHash) {
-            await dynamoDB.update({
-                TableName: "Doctors",
-                Key: { doctorId: doctor.doctorId },
-                UpdateExpression: "SET #password = :password",
-                ExpressionAttributeNames: { "#password": "password" },
-                ExpressionAttributeValues: { ":password": await bcrypt.hash(password, 10) }
-            }).promise();
-        }
-
         const params = {
             TableName: "Appointments",
             FilterExpression: "doctorId = :doctorId",
