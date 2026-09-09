@@ -36,8 +36,12 @@ exports.loginDoctor = async (req, res) => {
 
         }
 
-        // Temporary plain-text password check
-        if (password !== doctor.password) {
+        const isBcryptHash = /^\$2[aby]\$/.test(doctor.password || "");
+        const isMatch = isBcryptHash
+            ? await bcrypt.compare(password, doctor.password)
+            : password === doctor.password;
+
+        if (!isMatch) {
 
             return res.status(401).json({
                 success: false,
@@ -80,6 +84,17 @@ exports.getAppointments = async (req, res) => {
 
         if (!doctorId) {
             return res.status(400).json({ success: false, message: "doctorId is required." });
+        }
+
+        // Upgrade legacy plain-text doctor passwords after a successful login.
+        if (!isBcryptHash) {
+            await dynamoDB.update({
+                TableName: "Doctors",
+                Key: { doctorId: doctor.doctorId },
+                UpdateExpression: "SET #password = :password",
+                ExpressionAttributeNames: { "#password": "password" },
+                ExpressionAttributeValues: { ":password": await bcrypt.hash(password, 10) }
+            }).promise();
         }
 
         const params = {

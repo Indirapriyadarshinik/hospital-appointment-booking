@@ -19,6 +19,13 @@ app.use("/doctor", doctorRoutes);
 app.use("/admin", adminRoutes);
 app.use("/report", reportRoutes);
 
+// Production frontend and API share one origin. Keeping the API under /api
+// prevents its paths from clashing with frontend folders such as /patient.
+app.use("/api/patient", patientRoutes);
+app.use("/api/doctor", doctorRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/report", reportRoutes);
+
 // Test Route
 app.get("/", (req, res) => {
     res.send("Hospital Appointment Booking Backend Running...");

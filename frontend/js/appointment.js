@@ -1,3 +1,5 @@
+const API_BASE_URL = window.location.protocol === "file:" ? "http://localhost:3000/api" : `${window.location.origin}/api`;
+
 // Welcome Message
 
 const patientName = localStorage.getItem("patientName");
@@ -82,7 +84,7 @@ form.addEventListener("submit", async function (e) {
 
     try {
 
-        const response = await fetch("http://localhost:3000/patient/book-appointment", {
+        const response = await fetch(`${API_BASE_URL}/patient/book-appointment`, {
 
             method: "POST",
 

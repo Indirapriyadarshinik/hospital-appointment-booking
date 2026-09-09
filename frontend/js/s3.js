@@ -1,11 +1,2 @@
-const { S3Client } = require("@aws-sdk/client-s3");
-
-const s3 = new S3Client({
-    region: process.env.AWS_REGION,
-    credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-    }
-});
-
-module.exports = s3;
+// AWS SDK credentials must never be included in browser code. File uploads are
+// handled by the backend API, which uses the EC2 IAM role.

@@ -1,3 +1,4 @@
+const API_BASE_URL = window.location.protocol === "file:" ? "http://localhost:3000/api" : `${window.location.origin}/api`;
 const form = document.getElementById("registerForm");
 
 form.addEventListener("submit", async (e) => {
@@ -17,7 +18,7 @@ form.addEventListener("submit", async (e) => {
 
     try {
 
-        const response = await fetch("http://localhost:3000/patient/register", {
+        const response = await fetch(`${API_BASE_URL}/patient/register`, {
 
             method: "POST",
 

@@ -1,3 +1,5 @@
+const API_BASE_URL = window.location.protocol === "file:" ? "http://localhost:3000/api" : `${window.location.origin}/api`;
+
 // Show Patient Name
 
 const patientName = localStorage.getItem("patientName");
@@ -16,7 +18,7 @@ async function loadAppointments() {
 
     try {
 
-        const response = await fetch(`http://localhost:3000/patient/appointments/${patientId}`);
+        const response = await fetch(`${API_BASE_URL}/patient/appointments/${patientId}`);
 
         const result = await response.json();
 

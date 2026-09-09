@@ -1,3 +1,4 @@
+const API_BASE_URL = window.location.protocol === "file:" ? "http://localhost:3000/api" : `${window.location.origin}/api`;
 const patientId = localStorage.getItem("patientId");
 
 if (!patientId) {
@@ -9,7 +10,7 @@ async function loadDashboard() {
     try {
 
         // Patient Profile
-        const profileRes = await fetch(`http://localhost:3000/patient/profile/${patientId}`);
+        const profileRes = await fetch(`${API_BASE_URL}/patient/profile/${patientId}`);
         const profileData = await profileRes.json();
 
         if (profileData.success) {
@@ -24,7 +25,7 @@ async function loadDashboard() {
 
         // Appointments
 
-        const appointmentRes = await fetch(`http://localhost:3000/patient/appointments/${patientId}`);
+        const appointmentRes = await fetch(`${API_BASE_URL}/patient/appointments/${patientId}`);
 
         const appointmentData = await appointmentRes.json();
 

@@ -1,3 +1,4 @@
+const API_BASE_URL = window.location.protocol === "file:" ? "http://localhost:3000/api" : `${window.location.origin}/api`;
 const form = document.getElementById("loginForm");
 
 form.addEventListener("submit", async function (e) {
@@ -16,13 +17,13 @@ form.addEventListener("submit", async function (e) {
     let apiUrl = "";
 
     if (role === "Patient") {
-        apiUrl = "http://localhost:3000/patient/login";
+        apiUrl = `${API_BASE_URL}/patient/login`;
     }
     else if (role === "Doctor") {
-        apiUrl = "http://localhost:3000/doctor/login";
+        apiUrl = `${API_BASE_URL}/doctor/login`;
     }
     else if (role === "Admin") {
-        apiUrl = "http://localhost:3000/admin/login";
+        apiUrl = `${API_BASE_URL}/admin/login`;
     }
 
     try {

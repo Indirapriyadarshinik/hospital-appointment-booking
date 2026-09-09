@@ -33,6 +33,7 @@ exports.loginAdmin = async (req, res) => {
 };
 
 const dynamoDB = require("../config/aws");
+const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
 
 exports.createDoctor = async (req, res) => {
@@ -53,7 +54,7 @@ exports.createDoctor = async (req, res) => {
 
         const doctor = {
             doctorId: "DR" + uuidv4().replace(/-/g, "").slice(0, 6).toUpperCase(),
-            fullName, email, phone, password, department, experience, qualification,
+            fullName, email, phone, password: await bcrypt.hash(password, 10), department, experience, qualification,
             consultationFee, availableDays, availableTime, address,
             createdAt: new Date().toISOString()
         };
