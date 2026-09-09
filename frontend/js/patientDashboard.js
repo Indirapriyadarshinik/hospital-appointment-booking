@@ -55,3 +55,35 @@ async function loadDashboard() {
 }
 
 loadDashboard();
+
+function escapeHtml(value = "") {
+    return String(value).replace(/[&<>'"]/g, (character) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
+    }[character]));
+}
+
+async function loadDashboardDoctors() {
+    const list = document.getElementById("dashboardDoctorList");
+    if (!list) return;
+    try {
+        const response = await fetch(`${API_BASE_URL}/admin/doctors`);
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error("Unable to load doctors.");
+        if (result.doctors.length === 0) {
+            list.innerHTML = '<div class="col-12 text-muted">No doctors have been added yet.</div>';
+            return;
+        }
+        list.innerHTML = result.doctors.slice(0, 3).map((doctor) => `
+            <div class="col-md-4"><div class="border rounded-3 p-3 h-100">
+                <h5 class="mb-1">${escapeHtml(doctor.fullName)}</h5>
+                <p class="text-muted mb-2">${escapeHtml(doctor.department)}</p>
+                <small>${escapeHtml(doctor.experience || "Experience not specified")}</small>
+                <a href="book-appointment.html" class="btn btn-primary btn-sm d-block mt-3">Book Appointment</a>
+            </div></div>`).join("");
+    } catch (error) {
+        console.error(error);
+        list.innerHTML = '<div class="col-12 text-danger">Unable to load doctors.</div>';
+    }
+}
+
+loadDashboardDoctors();
