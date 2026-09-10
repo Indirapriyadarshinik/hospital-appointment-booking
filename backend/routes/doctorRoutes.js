@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
     loginDoctor,
+    getDoctorProfile,
     getAppointments,
     approveAppointment,
     rejectAppointment,
@@ -10,6 +11,7 @@ const {
 } = require("../controllers/doctorController");
 
 router.post("/login", loginDoctor);
+router.get("/profile/:doctorId", getDoctorProfile);
 
 router.get("/appointments", getAppointments);
 

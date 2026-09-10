@@ -77,6 +77,26 @@ exports.loginDoctor = async (req, res) => {
     }
 
 };
+
+exports.getDoctorProfile = async (req, res) => {
+    try {
+        const result = await dynamoDB.get({
+            TableName: "Doctors",
+            Key: { doctorId: req.params.doctorId }
+        }).promise();
+
+        if (!result.Item) {
+            return res.status(404).json({ success: false, message: "Doctor not found." });
+        }
+
+        const { password, ...doctor } = result.Item;
+        return res.json({ success: true, doctor });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ success: false, message: "Unable to load doctor profile." });
+    }
+};
+
 exports.getAppointments = async (req, res) => {
 
     try {
