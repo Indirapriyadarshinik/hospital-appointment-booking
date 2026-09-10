@@ -1,4 +1,5 @@
 const sns = require("../config/sns");
+const ses = require("../config/ses");
 const dynamoDB = require("../config/aws");
 const bcrypt = require("bcrypt");
 
@@ -157,7 +158,7 @@ exports.approveAppointment = async (req, res) => {
         const data = await dynamoDB.update(params).promise();
 
         const appointment = data.Attributes;
-        if (process.env.SNS_TOPIC_ARN) {
+        if (process.env.SNS_TOPIC_ARN || process.env.SES_FROM_EMAIL) {
             try {
                 const patientData = await dynamoDB.get({
                     TableName: "Patients",
@@ -165,11 +166,27 @@ exports.approveAppointment = async (req, res) => {
                 }).promise();
 
                 if (patientData.Item) {
-                    await sns.publish({
-                        TopicArn: process.env.SNS_TOPIC_ARN,
-                        Subject: "Appointment Approved",
-                        Message: `Hello ${patientData.Item.fullName},\n\nYour appointment ${appointment.appointmentId} has been approved.\nDate: ${appointment.appointmentDate}\nTime: ${appointment.appointmentTime}`
-                    }).promise();
+                    const subject = "Appointment Approved";
+                    const message = `Hello ${patientData.Item.fullName},\n\nYour appointment ${appointment.appointmentId} has been approved.\nDate: ${appointment.appointmentDate}\nTime: ${appointment.appointmentTime}`;
+
+                    if (process.env.SES_FROM_EMAIL && patientData.Item.email) {
+                        await ses.sendEmail({
+                            Source: process.env.SES_FROM_EMAIL,
+                            Destination: { ToAddresses: [patientData.Item.email] },
+                            Message: {
+                                Subject: { Data: subject, Charset: "UTF-8" },
+                                Body: { Text: { Data: message, Charset: "UTF-8" } }
+                            }
+                        }).promise();
+                    }
+
+                    if (process.env.SNS_TOPIC_ARN) {
+                        await sns.publish({
+                            TopicArn: process.env.SNS_TOPIC_ARN,
+                            Subject: subject,
+                            Message: message
+                        }).promise();
+                    }
                 }
             } catch (notificationError) {
                 console.error("Appointment approved, but notification could not be sent:", notificationError);
