@@ -22,6 +22,10 @@ async function loadDoctors() {
                 <td><a class="btn btn-primary btn-sm" href="add-doctor.html">Add Doctor</a></td>
             </tr>`).join("")
             : '<tr><td colspan="6" class="text-center">No doctors found.</td></tr>';
+        document.getElementById("totalDoctorsCount").textContent = result.doctors.length;
+        document.getElementById("availableDoctorsCount").textContent = result.doctors.length;
+        document.getElementById("busyDoctorsCount").textContent = 0;
+        document.getElementById("onLeaveDoctorsCount").textContent = 0;
     } catch (error) {
         body.innerHTML = '<tr><td colspan="6" class="text-center text-danger">Unable to load doctors.</td></tr>';
     }

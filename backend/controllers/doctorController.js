@@ -191,7 +191,7 @@ exports.approveAppointment = async (req, res) => {
 
                     if (process.env.SES_FROM_EMAIL && patientData.Item.email) {
                         await ses.sendEmail({
-                            Source: process.env.SES_FROM_EMAIL,
+                            Source: `${process.env.SES_FROM_NAME || "MedCare Hospital"} <${process.env.SES_FROM_EMAIL}>`,
                             Destination: { ToAddresses: [patientData.Item.email] },
                             Message: {
                                 Subject: { Data: subject, Charset: "UTF-8" },

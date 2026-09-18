@@ -21,6 +21,17 @@ async function loadPatients() {
                 <td><span class="badge bg-success">Active</span></td>
             </tr>`).join("")
             : '<tr><td colspan="5" class="text-center">No patients found.</td></tr>';
+        document.getElementById("totalPatientsCount").textContent = result.patients.length;
+        document.getElementById("newPatientsCount").textContent = result.patients.filter((patient) => {
+            const created = new Date(patient.createdAt || 0);
+            const now = new Date();
+            return created.getFullYear() === now.getFullYear() && created.getMonth() === now.getMonth();
+        }).length;
+
+        const appointmentsResponse = await fetch(`${API_BASE_URL}/admin/appointments`);
+        const appointmentsResult = await appointmentsResponse.json();
+        document.getElementById("patientAppointmentsCount").textContent =
+            appointmentsResponse.ok && appointmentsResult.success ? appointmentsResult.appointments.length : "—";
     } catch (error) {
         body.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Unable to load patients.</td></tr>';
     }
