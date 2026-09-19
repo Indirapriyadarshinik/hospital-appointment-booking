@@ -51,5 +51,8 @@ appointment.diagnosis || "Not Available";
 document.getElementById("prescription").textContent =
 appointment.prescription || "Not Available";
 
+document.getElementById("medication").textContent =
+appointment.medication || "Not Available";
+
 document.getElementById("advice").textContent =
 appointment.advice || "Not Available";

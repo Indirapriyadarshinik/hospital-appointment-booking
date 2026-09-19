@@ -34,7 +34,9 @@ async function loadAppointments() {
             const actions = app.status === "Pending"
                 ? `<button class="btn btn-success btn-sm me-2" onclick="updateAppointmentStatus('${app.appointmentId}', 'approve')">Accept</button>
                    <button class="btn btn-danger btn-sm" onclick="updateAppointmentStatus('${app.appointmentId}', 'reject')">Reject</button>`
-                : "—";
+                : app.status === "Approved"
+                    ? `<button class="btn btn-primary btn-sm" onclick="addMedication('${app.appointmentId}', '${(app.medication || "").replace(/'/g, "\\'")}')">Add Medication</button>`
+                    : "—";
 
             return `<tr>
                 <td>${app.appointmentId}</td>
@@ -49,6 +51,25 @@ async function loadAppointments() {
     } catch (error) {
         console.error(error);
         table.innerHTML = '<tr><td colspan="7">Unable to load appointments.</td></tr>';
+    }
+}
+
+async function addMedication(appointmentId, currentMedication) {
+    const medication = prompt("Enter medication and dosage:", currentMedication);
+    if (medication === null) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/doctor/notes/${appointmentId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ medication, doctorId })
+        });
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error(result.message || "Unable to save medication.");
+        alert("Medication saved.");
+        loadAppointments();
+    } catch (error) {
+        alert(error.message || "Unable to save medication.");
     }
 }
 

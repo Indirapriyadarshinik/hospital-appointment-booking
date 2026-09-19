@@ -330,9 +330,15 @@ exports.addDoctorNotes = async (req, res) => {
 
             diagnosis,
             prescription,
-            advice
+            advice,
+            medication,
+            doctorId
 
         } = req.body;
+
+        if (!doctorId) {
+            return res.status(400).json({ success: false, message: "doctorId is required." });
+        }
 
         const params = {
 
@@ -344,20 +350,23 @@ exports.addDoctorNotes = async (req, res) => {
 
             },
 
-            UpdateExpression:
-            "SET diagnosis = :d, prescription = :p, advice = :a",
-
+            ConditionExpression: "doctorId = :doctorId",
+            UpdateExpression: "SET medication = :m",
             ExpressionAttributeValues: {
-
-                ":d": diagnosis,
-                ":p": prescription,
-                ":a": advice
-
+                ":m": medication || "",
+                ":doctorId": doctorId
             },
 
             ReturnValues: "ALL_NEW"
 
         };
+
+        if (diagnosis !== undefined || prescription !== undefined || advice !== undefined) {
+            params.UpdateExpression = "SET diagnosis = :d, prescription = :p, advice = :a, medication = :m";
+            params.ExpressionAttributeValues[":d"] = diagnosis || "";
+            params.ExpressionAttributeValues[":p"] = prescription || "";
+            params.ExpressionAttributeValues[":a"] = advice || "";
+        }
 
         const data = await dynamoDB.update(params).promise();
 
