@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const reportRoutes = require("./routes/reportRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/patient", patientRoutes);
 app.use("/doctor", doctorRoutes);
 app.use("/admin", adminRoutes);
 app.use("/report", reportRoutes);
+app.use("/chat", chatRoutes);
 
 // Production frontend and API share one origin. Keeping the API under /api
 // prevents its paths from clashing with frontend folders such as /patient.
@@ -25,6 +27,7 @@ app.use("/api/patient", patientRoutes);
 app.use("/api/doctor", doctorRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/report", reportRoutes);
+app.use("/api/chat", chatRoutes);
 
 // Test Route
 app.get("/", (req, res) => {

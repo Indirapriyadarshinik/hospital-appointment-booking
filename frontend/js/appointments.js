@@ -122,6 +122,8 @@ View
 
 </button>
 
+${app.status === "Approved" ? `<button class="btn btn-outline-success btn-sm ms-1" onclick="openChat('${app.appointmentId}')">Chat</button>` : ""}
+
 </td>
 
                 </tr>
@@ -140,6 +142,10 @@ View
 
     }
 
+}
+
+function openChat(appointmentId) {
+    window.location.href = `../chat.html?appointmentId=${encodeURIComponent(appointmentId)}`;
 }
 
 // Load data automatically

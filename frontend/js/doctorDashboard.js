@@ -26,7 +26,7 @@ async function loadAppointments() {
             const actions = app.status === "Pending"
                 ? `<button class="btn btn-success btn-sm me-2" onclick="updateAppointmentStatus('${app.appointmentId}', 'approve')">Accept</button><button class="btn btn-danger btn-sm" onclick="updateAppointmentStatus('${app.appointmentId}', 'reject')">Reject</button>`
                 : app.status === "Approved"
-                    ? `<button class="btn btn-primary btn-sm" onclick="addMedicalNotes('${app.appointmentId}')">Add / Edit Notes</button>`
+                    ? `<button class="btn btn-primary btn-sm me-2" onclick="addMedicalNotes('${app.appointmentId}')">Add / Edit Notes</button><button class="btn btn-outline-success btn-sm" onclick="openChat('${app.appointmentId}')">Chat</button>`
                     : "—";
             return `<tr><td>${app.appointmentId}</td><td>${app.patientId}</td><td>${app.department || "—"}</td><td>${app.appointmentDate}</td><td>${app.appointmentTime}</td><td><span class="badge ${badgeClass}">${app.status}</span></td><td>${actions}</td></tr>`;
         }).join("");
@@ -34,6 +34,10 @@ async function loadAppointments() {
         console.error(error);
         table.innerHTML = '<tr><td colspan="7">Unable to load appointments.</td></tr>';
     }
+}
+
+function openChat(appointmentId) {
+    window.location.href = `../chat.html?appointmentId=${encodeURIComponent(appointmentId)}`;
 }
 
 async function addMedicalNotes(appointmentId) {
