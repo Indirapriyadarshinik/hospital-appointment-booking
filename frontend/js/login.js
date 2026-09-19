@@ -48,6 +48,15 @@ form.addEventListener("submit", async function (e) {
 
         alert("Login Successful");
 
+        // One browser can be used by different roles. Clear the previous
+        // role first so a patient never inherits a doctor's identity.
+        localStorage.removeItem("patientId");
+        localStorage.removeItem("patientName");
+        localStorage.removeItem("doctorId");
+        localStorage.removeItem("doctorName");
+        localStorage.removeItem("department");
+        localStorage.setItem("activeRole", role.toLowerCase());
+
         if (role === "Patient") {
 
             localStorage.setItem("patientId", result.patientId);

@@ -1,6 +1,6 @@
 const API_BASE_URL = window.location.protocol === "file:" ? "http://localhost:3000/api" : `${window.location.origin}/api`;
 const appointmentId = new URLSearchParams(window.location.search).get("appointmentId");
-const role = localStorage.getItem("doctorId") ? "doctor" : "patient";
+const role = localStorage.getItem("activeRole");
 const userId = role === "doctor" ? localStorage.getItem("doctorId") : localStorage.getItem("patientId");
 const senderName = role === "doctor" ? localStorage.getItem("doctorName") : localStorage.getItem("patientName");
 const messagesElement = document.getElementById("messages");
@@ -8,7 +8,7 @@ const errorElement = document.getElementById("chatError");
 
 document.getElementById("appointmentLabel").textContent = appointmentId ? `Appointment: ${appointmentId}` : "Appointment not selected";
 
-if (!appointmentId || !userId) {
+if (!appointmentId || !userId || !["doctor", "patient"].includes(role)) {
     showError("Please log in and open chat from an appointment.");
     document.getElementById("messageForm").classList.add("d-none");
 } else {
