@@ -40,7 +40,18 @@ exports.getMessages = async (req, res) => {
             ScanIndexForward: true
         }).promise();
 
-        return res.json({ success: true, messages: data.Items || [] });
+        const unreadField = role === "doctor" ? "doctorUnread" : "patientUnread";
+        const messages = data.Items || [];
+        await Promise.all(messages
+            .filter((item) => item.senderId !== userId && item[unreadField])
+            .map((item) => dynamoDB.update({
+                TableName: MESSAGES_TABLE,
+                Key: { appointmentId: item.appointmentId, createdAt: item.createdAt },
+                UpdateExpression: `SET ${unreadField} = :read`,
+                ExpressionAttributeValues: { ":read": false }
+            }).promise()));
+
+        return res.json({ success: true, messages });
     } catch (error) {
         console.error("Get chat messages error:", error);
         return res.status(error.statusCode || 500).json({
@@ -56,7 +67,7 @@ exports.sendMessage = async (req, res) => {
     try {
         const { appointmentId } = req.params;
         const { role, userId, senderName, message } = req.body;
-        await getVerifiedAppointment(appointmentId, role, userId);
+        const appointment = await getVerifiedAppointment(appointmentId, role, userId);
 
         const text = String(message || "").trim();
         if (!text) return res.status(400).json({ success: false, message: "Message cannot be empty." });
@@ -69,7 +80,11 @@ exports.sendMessage = async (req, res) => {
             senderId: userId,
             senderRole: role,
             senderName: String(senderName || role).slice(0, 100),
-            message: text
+            message: text,
+            patientId: appointment.patientId,
+            doctorId: appointment.doctorId,
+            patientUnread: role === "doctor",
+            doctorUnread: role === "patient"
         };
         await dynamoDB.put({ TableName: MESSAGES_TABLE, Item: chatMessage }).promise();
         return res.status(201).json({ success: true, message: chatMessage });
@@ -81,5 +96,27 @@ exports.sendMessage = async (req, res) => {
                 ? "ChatMessages table is not configured yet."
                 : error.message || "Unable to send message."
         });
+    }
+};
+
+exports.getUnreadMessages = async (req, res) => {
+    try {
+        const { role, userId } = req.query;
+        if (!userId || !["patient", "doctor"].includes(role)) {
+            return res.status(400).json({ success: false, message: "role and userId are required." });
+        }
+        const userField = role === "doctor" ? "doctorId" : "patientId";
+        const unreadField = role === "doctor" ? "doctorUnread" : "patientUnread";
+        const result = await dynamoDB.scan({
+            TableName: MESSAGES_TABLE,
+            FilterExpression: "#userField = :userId AND #unreadField = :unread",
+            ExpressionAttributeNames: { "#userField": userField, "#unreadField": unreadField },
+            ExpressionAttributeValues: { ":userId": userId, ":unread": true }
+        }).promise();
+        const messages = (result.Items || []).sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+        return res.json({ success: true, messages });
+    } catch (error) {
+        console.error("Get unread chat messages error:", error);
+        return res.status(500).json({ success: false, message: "Unable to load chat alerts." });
     }
 };
