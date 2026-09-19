@@ -13,40 +13,22 @@ if (!doctorId) {
 async function loadAppointments() {
     const table = document.getElementById("appointmentTable");
     table.innerHTML = '<tr><td colspan="7">Loading appointments...</td></tr>';
-
     try {
         const response = await fetch(`${API_BASE_URL}/doctor/appointments?doctorId=${encodeURIComponent(doctorId)}`);
         const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            throw new Error(result.message || "Unable to load appointments.");
-        }
-
+        if (!response.ok || !result.success) throw new Error(result.message || "Unable to load appointments.");
         if (result.appointments.length === 0) {
             table.innerHTML = '<tr><td colspan="7">No appointments found.</td></tr>';
             return;
         }
-
         table.innerHTML = result.appointments.map((app) => {
-            const badgeClass = app.status === "Pending"
-                ? "bg-warning text-dark"
-                : app.status === "Approved" ? "bg-success" : "bg-danger";
+            const badgeClass = app.status === "Pending" ? "bg-warning text-dark" : app.status === "Approved" ? "bg-success" : "bg-danger";
             const actions = app.status === "Pending"
-                ? `<button class="btn btn-success btn-sm me-2" onclick="updateAppointmentStatus('${app.appointmentId}', 'approve')">Accept</button>
-                   <button class="btn btn-danger btn-sm" onclick="updateAppointmentStatus('${app.appointmentId}', 'reject')">Reject</button>`
+                ? `<button class="btn btn-success btn-sm me-2" onclick="updateAppointmentStatus('${app.appointmentId}', 'approve')">Accept</button><button class="btn btn-danger btn-sm" onclick="updateAppointmentStatus('${app.appointmentId}', 'reject')">Reject</button>`
                 : app.status === "Approved"
-                    ? `<button class="btn btn-primary btn-sm" onclick="addMedication('${app.appointmentId}', '${(app.medication || "").replace(/'/g, "\\'")}')">Add Medication</button>`
+                    ? `<button class="btn btn-primary btn-sm" onclick="addMedicalNotes('${app.appointmentId}')">Add / Edit Notes</button>`
                     : "—";
-
-            return `<tr>
-                <td>${app.appointmentId}</td>
-                <td>${app.patientId}</td>
-                <td>${app.department || "—"}</td>
-                <td>${app.appointmentDate}</td>
-                <td>${app.appointmentTime}</td>
-                <td><span class="badge ${badgeClass}">${app.status}</span></td>
-                <td>${actions}</td>
-            </tr>`;
+            return `<tr><td>${app.appointmentId}</td><td>${app.patientId}</td><td>${app.department || "—"}</td><td>${app.appointmentDate}</td><td>${app.appointmentTime}</td><td><span class="badge ${badgeClass}">${app.status}</span></td><td>${actions}</td></tr>`;
         }).join("");
     } catch (error) {
         console.error(error);
@@ -54,29 +36,33 @@ async function loadAppointments() {
     }
 }
 
-async function addMedication(appointmentId, currentMedication) {
-    const medication = prompt("Enter medication and dosage:", currentMedication);
+async function addMedicalNotes(appointmentId) {
+    const diagnosis = prompt("Enter diagnosis:");
+    if (diagnosis === null) return;
+    const prescription = prompt("Enter prescription:");
+    if (prescription === null) return;
+    const advice = prompt("Enter advice for the patient:");
+    if (advice === null) return;
+    const medication = prompt("Enter medication and dosage:");
     if (medication === null) return;
-
     try {
         const response = await fetch(`${API_BASE_URL}/doctor/notes/${appointmentId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ medication, doctorId })
+            body: JSON.stringify({ diagnosis, prescription, advice, medication, doctorId })
         });
         const result = await response.json();
-        if (!response.ok || !result.success) throw new Error(result.message || "Unable to save medication.");
-        alert("Medication saved.");
+        if (!response.ok || !result.success) throw new Error(result.message || "Unable to save doctor notes.");
+        alert("Doctor notes saved.");
         loadAppointments();
     } catch (error) {
-        alert(error.message || "Unable to save medication.");
+        alert(error.message || "Unable to save doctor notes.");
     }
 }
 
 async function updateAppointmentStatus(appointmentId, action) {
     const actionLabel = action === "approve" ? "accept" : "reject";
     if (!confirm(`Do you want to ${actionLabel} this appointment?`)) return;
-
     try {
         const response = await fetch(`${API_BASE_URL}/doctor/${action}/${appointmentId}`, {
             method: "PUT",
@@ -84,11 +70,7 @@ async function updateAppointmentStatus(appointmentId, action) {
             body: JSON.stringify({ doctorId })
         });
         const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            throw new Error(result.message || "Unable to update appointment.");
-        }
-
+        if (!response.ok || !result.success) throw new Error(result.message || "Unable to update appointment.");
         alert(result.message);
         loadAppointments();
     } catch (error) {
